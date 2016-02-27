@@ -1,0 +1,35 @@
+<div class="map-wrapper">
+  <div class="map-left">
+    <div class="map-filter">
+      <form>
+        <label>Distance: {{input type="range" min="0" max="20" step="0.1" value=filterDistance}}</label> within {{filterDistance}} miles <br/>
+        <label>Date: {{input type="range" min="0" max="7" step="1" value=filterDate}}</label> next {{filterDate}} days <br/>
+        Show: <label>{{input type="checkbox" checked=filterFriends}} Friends</label>
+        <label>{{input type="checkbox" checked=filterPublic}} Public</label>
+      </form>
+    </div>
+    <div class="map-results">
+      {{#each model as |event|}}
+        {{#link-to "event" event.id}}
+          <div class="map-results-item">
+            {{#slick-slider variableWidth=true autoplay=true autoplaySpeed=1000}}
+              {{#each event.images as |image|}}
+              <div class="map-results-item-image"><img src={{image}} /></div>
+              {{/each}}
+            {{/slick-slider}}
+
+            <h2>{{event.title}}</h2>
+            <h3>Hosted by: {{event.host}}</h3>
+          </div>
+        {{/link-to}}
+      {{/each}}
+    </div>
+  </div>
+  <div class="map-right">
+    {{#g-map lat=37.7833 lng=-122.4167 zoom=12 as |context|}}
+      {{#each model as |event|}}
+        {{g-map-marker context lat=event.lat lng=event.lng}}
+      {{/each}}
+    {{/g-map}}
+  </div>
+</div>

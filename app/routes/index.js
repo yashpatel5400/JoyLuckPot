@@ -99,6 +99,7 @@ export default Ember.Route.extend({
           }
           controller.set("application.user", record);
           console.log('Successful login for: ' + response.name);
+          controller.transitionToRoute("profile");
         });
       }
     });

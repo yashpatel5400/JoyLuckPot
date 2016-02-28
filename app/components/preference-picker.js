@@ -1,5 +1,8 @@
 import Ember from 'ember';
 
+var minRadius = 50,
+  maxRadius = 70;
+
 export default Ember.Component.extend({
   svg: null,
   nodes: [],
@@ -42,17 +45,26 @@ export default Ember.Component.extend({
       var currentWords = nodes.map(function (n) { return n.text; });
       var allShuffledWords = d3.shuffle(window.FOOD_WORDS);
 
-      var minRadius = 50,
-          maxRadius = 70,
-          n = 20 - nodes.length,
-          i = 0;
+      var selected = this.get("selected");
+
+      var n = 20 - nodes.length;
+      var i = 0;
 
       d3.range(n).map(function() {
         while (currentWords.indexOf(allShuffledWords[i]) != -1) i++;
         currentWords.push(allShuffledWords[i]);
         var r = Math.random() * (maxRadius - minRadius) + minRadius;
-        nodes.push({radius: r, text: allShuffledWords[i], isSelected: false});
+        var text = allShuffledWords[i];
+        nodes.push({radius: r, text: text, isSelected: (selected.indexOf(text) != -1)});
         i++;
+      });
+    },
+    _loadSelectedNodes() {
+      this.set("nodes", []);
+      var nodes = this.get("nodes");
+      this.get("selected").forEach(function(text) {
+        var r = Math.random() * (maxRadius - minRadius) + minRadius;
+        nodes.push({radius: r, text: text, isSelected: true});
       });
     },
     _updateNodes() {
@@ -63,6 +75,7 @@ export default Ember.Component.extend({
       var nodesUpdate = svg.selectAll("g")
           .data(nodes, function(d) { return d.text; });
 
+      var _this = this;
       var nodesEnter = nodesUpdate
           .enter()
           .append("g")
@@ -70,6 +83,12 @@ export default Ember.Component.extend({
           .on("click", function (d) {
             d.isSelected = !d.isSelected;
             d.radius = d.isSelected ? d.radius * 1.2 : d.radius / 1.2;
+            if (d.isSelected) {
+              _this.get("selected").push(d.text);
+            } else {
+              _this.get("selected").splice(_this.get("selected").indexOf(d.text), 1);
+            }
+            _this.set("selected", _this.get("selected").slice(0));
             d3.select(this)
                 .attr("d", d)
                 .select("circle")
@@ -80,7 +99,7 @@ export default Ember.Component.extend({
 
       nodesEnter.append("circle")
           .attr("r", function(d) { return d.radius; })
-          .style("fill", "pink")
+          .style("fill", function (d) { return d.isSelected ? "red" : "pink" })
           .style("transition", "fill 0.2s, r 0.2s");
 
       var sqrt2 = Math.sqrt(2);
@@ -123,7 +142,7 @@ export default Ember.Component.extend({
     //   return {radius: r, text: "" + r, isSelected: false};
     // });
     // this.set("nodes", nodes);
-    this.set("nodes", []);
+    this.send("_loadSelectedNodes");
     this.send("_addNodes");
     var nodes = this.get("nodes");
     setTimeout(() => this.send("_updateNodes"), 0);

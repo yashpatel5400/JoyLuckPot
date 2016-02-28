@@ -154,9 +154,18 @@ class Events(Resource):
 
         return json
 
+
+class User(Resource):
+  def put(self, id):
+    user = request.json["user"]
+
+    SQL_command_new = "UPDATE Users SET Preferences='{}' WHERE UserID='{}'".format(user["preferences"], id)
+    cur.execute(SQL_command_new)
+
 ##
 ## Actually setup the Api resource routing here
 api.add_resource(Users, '/users', methods=['GET','PUT','POST'])
+api.add_resource(User, '/users/<int:id>', methods=['GET','PUT','POST'])
 api.add_resource(Attendees, '/attendees', methods=['GET','PUT'])
 api.add_resource(Events, '/events', methods=['GET'])
 

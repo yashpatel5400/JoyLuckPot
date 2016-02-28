@@ -40,7 +40,7 @@ def get_prefs(users):
 # returns array of the specialities of user
 def get_specialities(user):
     SQL_query = "SELECT Specialities FROM Users \
-        WHERE UserID = {}".format(user)
+        WHERE UserID = '{}'".format(user)
     cur.execute(SQL_query)
     specialities = cur.fetchone()[0].split(', ')
     return specialities

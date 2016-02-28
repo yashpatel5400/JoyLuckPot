@@ -15,7 +15,7 @@ export default Ember.Component.extend({
       this.set("lng", latLng.lng());
     });
 
-    this.$(".geocomplete").bind("geocode:result", (event, latLng) => {
+    this.$(".geocomplete").bind("geocode:dragged", (event, latLng) => {
       this.set("lat", latLng.lat());
       this.set("lng", latLng.lng());
     });

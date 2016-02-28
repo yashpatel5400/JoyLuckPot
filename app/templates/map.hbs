@@ -30,7 +30,9 @@
           </div>
         {{/link-to}}
       {{/each}}
+
     </div>
+            <button class="btn create-button" {{action "create"}}>Create Event</button>
   </div>
   <div class="map-right">
     {{#g-map lat=userLat lng=userLng zoom=12 as |context|}}
@@ -41,10 +43,10 @@
   </div>
 </div>
 
-  <button class="btn create-button" {{action "create"}}>Create Event</button>
 
     {{#bs-modal footer=false open=openCreateModal title="Create Group"}}
-  <div class="container">
+
+  <div class="container-fluid">
 
   <h1>Create Group</h1> 
   <h3>Personal Details</h3>

@@ -7,7 +7,7 @@ export default [
   lng: -122.4167,
   maxGuests: 10,
   images: ["/img/61257.jpg", "/img/969189.jpg", "/img/1127678.jpg"],
-  attendees: [1, 2]
+  attendees: [1, 2],
  },
  {
   title: "Test Potluck 2",
@@ -17,6 +17,7 @@ export default [
   lng: -122.4167 + 0.01,
   maxGuests: 10,
   images: ["/img/61257.jpg", "/img/969189.jpg", "/img/1127678.jpg"],
-  attendees: [3, 4, 5]
+  attendees: [3, 4, 5],
  }
 ];
+

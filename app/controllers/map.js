@@ -1,6 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+
+
   userLocation: null,
   userLat: 0,
   userLng: 0,
@@ -11,6 +13,7 @@ export default Ember.Controller.extend({
 
     $('.map-location-overlay h1').html('<i class="fa fa-thumbs-o-up"></i>');
     $('.map-location-overlay').addClass('approved');
+
     setTimeout(function () {
         $('.map-location-overlay').css('zIndex', '-1')
     }, 1200);
@@ -25,5 +28,6 @@ export default Ember.Controller.extend({
     create() {
       this.set("openCreateModal", true);
     }
-  }
+  },
+
 });

@@ -36,6 +36,32 @@ body {
   padding-top: $navbar-height;
 }
 
+.map-location-overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 1001;
+  top: $navbar-height;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  color: white;
+  background-color: #c0392b;
+  text-align: center;
+  display: table;
+  -webkit-transition: background 0.3s linear 0s, opacity 0.2s linear 1s;
+
+  &.approved {
+    background-color: #27ae60;
+    opacity: 0;
+  }
+
+  h1 {
+    display: table-cell;
+    vertical-align: middle;
+  }
+}
+
 .map-wrapper {
   display: flex;
   flex-grow: 1;
@@ -159,4 +185,44 @@ body {
   .Aligner-item {
     align-self: flex-start;
   }
+}
+
+.attendee {
+  padding: 20px;
+  margin-bottom: 30px;
+  @include shadow;
+
+  &-photo {
+    width: 50px;
+    height: 50px;
+  }
+  &-name {
+    font-size: 24px;
+    line-height: 50px;
+    vertical-align: middle;
+    margin-left: 20px;
+  }
+}
+
+.event-hero {
+  overflow: auto;
+}
+
+.event-hero-left {
+  width: 60%;
+  float: left;
+}
+
+.event-image {
+  height: 300px;
+}
+
+.event-hero-right {
+  width: 40%;
+  float: left;
+  height: 300px;
+}
+
+.fa-spin {
+  line-height: normal;
 }

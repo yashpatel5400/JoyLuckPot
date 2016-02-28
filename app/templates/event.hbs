@@ -1,11 +1,26 @@
 <div class="container">
+  <div class="event-hero">
+    <div class="event-hero-left">
+      {{#slick-slider variableWidth=true autoplay=true autoplaySpeed=1000}}
+        {{#each model.images as |image|}}
+        <img class="event-image" src={{image}} />
+        {{/each}}
+      {{/slick-slider}}
+    </div>
+    <div class="event-hero-right">
+      {{#g-map lat=model.lat lng=model.lng zoom=12 as |context|}}
+        {{g-map-marker context lat=model.lat lng=model.lng}}]
+      {{/g-map}}
+    </div>
+  </div>
+
   <h1>{{model.title}}</h1>
   <p>{{model.description}}</p>
-  <p>
-  <ul>
-    {{#each model.attendees as |attendee|}}
-    <li>{{attendee.user.name}}</li>
-    {{/each}}
-  </ul>
-  </p>
+
+  {{#each model.attendees as |attendee|}}
+  <div class="attendee">
+    <img class="attendee-photo" src={{attendee.user.photo}} />
+    <span class="attendee-name">{{attendee.user.name}}</span>
+  </div>
+  {{/each}}
 </div>

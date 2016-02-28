@@ -113,5 +113,9 @@ class Attendees(Resource):
 api.add_resource(Users, '/users', methods=['GET','PUT'])
 api.add_resource(Attendees, '/attendees', methods=['GET','PUT'])
 
+@app.route('/')
+def index():
+	return send_template('templates/login.html')
+
 if __name__ == '__main__':
     app.run()

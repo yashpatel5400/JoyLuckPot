@@ -101,7 +101,7 @@ def get_recs(event, userID):
             # case where no one has brought dish already
             else:
                 best_options.append(final_spec)
-    return best_options
+    return [wikipedia.page(option).url for option in best_options]
 
 # given recommendations, determines all their corresponding recipes
 def get_recipes(recommendations):

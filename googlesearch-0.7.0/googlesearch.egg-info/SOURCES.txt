@@ -1,0 +1,16 @@
+LICENSE
+MANIFEST.in
+README.md
+setup.cfg
+setup.py
+googlesearch/__init__.py
+googlesearch/exceptions.py
+googlesearch/search.py
+googlesearch/settings.py
+googlesearch.egg-info/PKG-INFO
+googlesearch.egg-info/SOURCES.txt
+googlesearch.egg-info/dependency_links.txt
+googlesearch.egg-info/not-zip-safe
+googlesearch.egg-info/pbr.json
+googlesearch.egg-info/requires.txt
+googlesearch.egg-info/top_level.txt

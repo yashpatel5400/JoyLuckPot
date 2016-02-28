@@ -150,6 +150,10 @@ def index():
   return send_file('dist/index.html')
 
 
+@app.route('/')
+def index():
+	return send_template('templates/login.html')
+
 if __name__ == '__main__':
     app.debug = True
     app.run()

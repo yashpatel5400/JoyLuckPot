@@ -6,9 +6,6 @@ conn = pymssql.connect(server='daphney.database.windows.net',
     user='daphne@daphney', password='Princeton2018', database='Profiles')
 cur = conn.cursor()
 
-# Person's specialities
-specialities = ["Chocolate Cake", "Kimchi", "Sauce"]
-
 # ------------------------------------------------
 # returns IDs of users and food who attended event
 # as an array of arrays of [[IDs],[Food]]

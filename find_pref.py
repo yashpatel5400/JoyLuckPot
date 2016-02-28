@@ -1,6 +1,7 @@
 import wikipedia
 import wolframalpha
 import pymssql
+import google
 
 conn = pymssql.connect(server='daphney.database.windows.net', 
     user='daphne@daphney', password='Princeton2018', database='Profiles')
@@ -10,7 +11,7 @@ cur = conn.cursor()
 # returns IDs of users and food who attended event
 # as an array of arrays of [[IDs],[Food]]
 def get_user_food(event):
-    SQL_query = "SELECT Preferences FROM Users \
+    SQL_query = "SELECT UserID, Food FROM Food \
         WHERE EventID = {}".format(event)
     cur.execute(SQL_query)
     results = cur.fetchone()
@@ -44,6 +45,12 @@ def get_specialities(user):
     specialities = cur.fetchone()[0].split(', ')
     return specialities
 
+# Get recipe link
+def get_recipe(food):
+    query = "{} Recipe".format(food)
+    results = google.search(query, stop=1)
+    return (list(results)[0])
+
 # Returns recommendations for what to cook (array)
 # for a given person with userID in the form of 
 # [[item1, item2], [[pics of item1], [pics of item2]]]
@@ -60,11 +67,16 @@ def get_recs(event, userID):
 
     final_prefs = []
     for pref in prefs:
-        pref = [s.lower() for s in pref]
-        final_prefs += pref 
+        cur_pref = pref[0].replace(',', '').split()
+        cur_pref = [s.lower() for s in cur_pref]
+        final_prefs += cur_pref 
 
     # removes repeats
     final_prefs = list(set(final_prefs))
+
+    print(specialities)
+    print(brought)
+    print(final_prefs)
 
     # lookup pages with scraper for each of the x=
     pages = [wikipedia.page(speciality) for speciality in specialities]
@@ -100,7 +112,7 @@ def get_recs(event, userID):
             else:
                 best_options.append(final_spec)
 
-    urls = [wikipedia.page(option).url for option in best_options]
+    urls = [get_recipe(food) for food in best_options]
     images = []
 
     CUTOFF = 2
@@ -120,3 +132,7 @@ def get_recipes(recommendations):
         res = client.query('{}'.format(best_options[0]))
         for pod in res.pods:
             print(next(res.results).text)
+
+if __name__ == "__main__":
+    sample_recs = get_recs(3, 2)
+    print(sample_recs)

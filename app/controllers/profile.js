@@ -9,7 +9,11 @@ export default Ember.Controller.extend({
     save() {
       this.set("application.user.preferences", this.get("selected").join(","));
       this.get("application.user").save();
-      this.transitionToRoute("map");
+      Ember.$(".explode").click();
+      setTimeout(function () {
+        this.transitionToRoute("map");
+      }.bind(this), 500);
+
     }
   }
 });

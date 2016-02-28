@@ -38,48 +38,6 @@
   {{/each}}
 
   {{#bs-modal footer=false open=openJoinModal title="Join Group"}}
-    <h3> Host: {{model.event.host.name}} </h3>
-    <h3> Attendees: {{model.event.attendees.length}} </h3>
-    <h3> Location: {{model.event.description}} </h3>
-    <h3> Preferences In This Group </h3>
-      <div class = "container">
-      <span class="label label-default">Chinese</span>
-    <span class="label label-primary">American</span>
-    <span class="label label-success">Italian</span>
-    <span class="label label-info">Mediterannean</span>
-
-    <span class="label label-warning">Japanese</span>
-    <span class="label label-danger">Mexican</span>
-    </div>
-
-
-      <h3>Stuck?</h3>
-      <h4>Here's a list of suggestions to help you get started!</h4>
-      <div class="row">
-        <div class="col-sm-6 col-md-4">
-          <a href="https://www.pinterest.com/" target="_blank" class="thumbnail">
-            <p>Eat me.</p>
-            <img src="/img/back.jpg" alt="hi" style="width:150px;height:150px">
-          </a>
-        </div>
-        <div class="col-sm-6 col-md-4">
-          <a href="https://www.pinterest.com/" target="_blank" class="thumbnail">
-            <p>Pretty please eat me.</p>
-            <img src="/img/back.jpg" alt="lol" style="width:150px;height:150px">
-          </a>
-        </div>
-        <div class="col-sm-6 col-md-4">
-          <a href="https://www.pinterest.com/" target="_blank" class="thumbnail">
-            <p>If you don't eat me, I'll eat you.</p>
-            <img src="/img/back.jpg" alt="ugh" style="width:150px;height:150px">
-          </a>
-        </div>
-            <div class="col-sm-6 col-md-4">
-          <a href="https://www.pinterest.com/" target="_blank" class="thumbnail">
-            <p>Good bye.</p>
-            <img src="/img/back.jpg" alt="meh" style="width:150px;height:150px">
-          </a>
-        </div>
-      </div>
+    {{join-event event=model.event user=application.user}}
   {{/bs-modal}}
 </div>

@@ -1,0 +1,26 @@
+<h3> Host: {{event.host.name}} </h3>
+<h3> Attendees: {{event.attendees.length}} </h3>
+<h3> Location: {{event.description}} </h3>
+
+<h3> Preferences In This Group </h3>
+
+<div class = "container">
+{{#each fToI as |item|}}
+  <span class="label label-default">{{item.food}}</span>
+{{/each}}
+</div>
+
+<h3>Stuck?</h3>
+<h4>Here's a list of suggestions to help you get started!</h4>
+<div class="row">
+  {{#each fToI as |item|}}
+  <div class="col-sm-6 col-md-4">
+    <a href="https://duckduckgo.com/?q=!ducky+recipe+{{item.food}}" target="_blank" class="thumbnail">
+      <p>{{item.food}}</p>
+      {{#each item.images as |image|}}
+        <img src="{{image}}" alt="hi" style="width:150px;height:150px">
+      {{/each}}
+    </a>
+  </div>
+  {{/each}}
+</div>

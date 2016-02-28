@@ -45,7 +45,8 @@ def get_specialities(user):
     return specialities
 
 # Returns recommendations for what to cook (array)
-# for a given person with userID
+# for a given person with userID in the form of 
+# [[item1, item2], [[pics of item1], [pics of item2]]]
 def get_recs(event, userID):
     overall_values = get_user_food(event)
     specialities = get_specialities(userID)
@@ -98,7 +99,19 @@ def get_recs(event, userID):
             # case where no one has brought dish already
             else:
                 best_options.append(final_spec)
-    return [wikipedia.page(option).url for option in best_options]
+
+    urls = [wikipedia.page(option).url for option in best_options]
+    images = []
+
+    CUTOFF = 2
+    for option in best_options:
+        page = wikipedia.page(option)
+        length = len(page.images)
+        if length > CUTOFF:
+            images.append(page.images[:CUTOFF])
+        else:
+            images.append(page.images)
+    return [urls, images]
 
 # given recommendations, determines all their corresponding recipes
 def get_recipes(recommendations):

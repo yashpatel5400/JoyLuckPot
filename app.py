@@ -36,7 +36,7 @@ class Users(Resource):
             curID = result[self.LOC_USER_ID]
 
             SQL_command_2 = "SELECT FoodComboID FROM Food \
-                WHERE UserID = {}".format(curID)
+                WHERE UserID = '{}'".format(curID)
             cur.execute(SQL_command_2)
 
             results_2 = cur.fetchone()

@@ -27,7 +27,7 @@ def get_user_food(event):
 def get_prefs(users):
     full_prefs = []
     for user in users:
-        SQL_query = "SELECT Preferences FROM Users WHERE UserID = {}".format(user)
+        SQL_query = "SELECT Preferences FROM Users WHERE UserID = '{}'".format(user)
         cur.execute(SQL_query)
         results = cur.fetchone()
         preferences = []
@@ -53,7 +53,7 @@ def get_recipe(food):
 
 # Returns recommendations for what to cook (array)
 # for a given person with userID in the form of
-# [[item1, item2], [item1 recipe, item2 recipe], 
+# [[item1, item2], [item1 recipe, item2 recipe],
 # [[pics of item1], [pics of item2]]]
 def get_recs(event, userID):
     overall_values = get_user_food(event)
@@ -68,7 +68,7 @@ def get_recs(event, userID):
 
     final_prefs = []
     for pref in prefs:
-        cur_pref = pref[0].replace(',', '').split()
+        cur_pref = pref[0].replace(', ', ',').split(',')
         cur_pref = [s.lower() for s in cur_pref]
         final_prefs += cur_pref
 
@@ -142,7 +142,7 @@ def get_nutrition_fact(recommendations):
             cut_index = line.find('|')
             if cut_index != -1:
                 simplified_text.append(" ".join(line[:cut_index].split()))
-        
+
         nutrition_facts = {}
         for line in simplified_text:
             num_index = re.search("\d", line)

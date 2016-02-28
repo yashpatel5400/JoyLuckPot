@@ -22,6 +22,7 @@ module.exports = function(defaults) {
 
   app.import('bower_components/d3/d3.min.js');
   app.import('vendor/foodWords.js');
+  app.import('vendor/jquery.geocomplete.js');
 
   return app.toTree();
 };

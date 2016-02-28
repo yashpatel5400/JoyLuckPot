@@ -2,12 +2,15 @@ from flask import Flask, send_file, request, jsonify
 from flask_restful import reqparse, abort, Api, Resource
 import pymssql
 import find_pref
+import wolframalpha
 
 app = Flask(__name__, static_folder="dist", static_url_path="")
 api = Api(app)
 conn = pymssql.connect(server='daphney.database.windows.net',
     user='daphne@daphney', password='Princeton2018', database='Profiles')
 cur = conn.cursor()
+
+wa_client = wolframalpha.Client("7G2PKA-T85X7T866X")
 
 # User -- person attending event
 class Users(Resource):
@@ -156,6 +159,12 @@ def suggestions():
   user_id = request.args.get("user_id")
   suggestions = find_pref.get_recs(event_id, user_id)
   return jsonify(suggestions=suggestions)
+
+
+@app.route('/weather')
+def weather():
+  res = wa_client.query("weather in Pasadena, CA")
+  return ""
 
 
 if __name__ == '__main__':

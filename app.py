@@ -70,6 +70,17 @@ class Users(Resource):
             new_user_specialties, new_user_preferences, new_user_name)
         cur.execute(SQL_command_new)
 
+    def post(self):
+        new_user = request.get_json()["user"]
+        new_user_id = new_user['id']
+        new_user_photo = new_user['photo']
+        new_user_name = new_user['name']
+
+        SQL_command_new = " INSERT INTO Users\
+            VALUES (\"{}\",\"{}\",\"\",\"\",\"{}\")".format(new_user_id, new_user_photo,
+                                            new_user_name)
+        cur.execute(SQL_command_new)
+
 # Attendees -- list of people at event
 class Attendees(Resource):
     # gives indices in SQL to prevent magic numbers
@@ -145,7 +156,7 @@ class Events(Resource):
 
 ##
 ## Actually setup the Api resource routing here
-api.add_resource(Users, '/users', methods=['GET','PUT'])
+api.add_resource(Users, '/users', methods=['GET','PUT','POST'])
 api.add_resource(Attendees, '/attendees', methods=['GET','PUT'])
 api.add_resource(Events, '/events', methods=['GET'])
 

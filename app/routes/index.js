@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.Route.extend({
   setupController: function (controller, model) {
     this._super(controller, model);
-    
+
     Ember.run.schedule('afterRender', this, function () {
       // This is called with the results from from FB.getLoginStatus().
       function statusChangeCallback(response) {
@@ -48,13 +48,13 @@ export default Ember.Route.extend({
       window.fbAsyncInit = function() {
         FB.init({
           appId      : '224759094536294',
-          cookie     : true,  // enable cookies to allow the server to access 
+          cookie     : true,  // enable cookies to allow the server to access
                               // the session
           xfbml      : true,  // parse social plugins on this page
           version    : 'v2.5' // use graph api version 2.5
         });
 
-        // Now that we've initialized the JavaScript SDK, we call 
+        // Now that we've initialized the JavaScript SDK, we call
         // FB.getLoginStatus().  This function gets the state of the
         // person visiting this page and can return one of three states to
         // the callback you provide.  They can be:
@@ -82,9 +82,22 @@ export default Ember.Route.extend({
 
       // Here we run a very simple test of the Graph API after login is
       // successful.  See statusChangeCallback() for when this call is made.
+      var _this = this;
       function testAPI() {
         console.log('Welcome!  Fetching your information.... ');
-        FB.api('/me', function(response) {
+        FB.api('/me', (response) => {
+          var record = _this.store.peekRecord('user', response.id);
+          if (!record) {
+            record = _this.store.createRecord("user", {
+              id: response.id,
+              name: response.name,
+              photo: `http://graph.facebook.com/${response.id}/picture?type=square`,
+              specialties: "",
+              preferences: ""
+            });
+            record.save();
+          }
+          controller.set("application.user", record);
           console.log('Successful login for: ' + response.name);
         });
       }

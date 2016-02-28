@@ -127,6 +127,7 @@ class Events(Resource):
         while results:
             json["events"].append({
                 "id": results[self.LOC_ID],
+                "host": results[self.LOC_HOST],
                 "title": results[self.LOC_TITLE],
                 "description": results[self.LOC_DESC],
                 "time": results[self.LOC_TIME].isoformat(),

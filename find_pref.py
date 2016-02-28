@@ -53,7 +53,8 @@ def get_recipe(food):
 
 # Returns recommendations for what to cook (array)
 # for a given person with userID in the form of
-# [[item1, item2], [[pics of item1], [pics of item2]]]
+# [[item1, item2], [item1 recipe, item2 recipe], 
+# [[pics of item1], [pics of item2]]]
 def get_recs(event, userID):
     overall_values = get_user_food(event)
     specialities = get_specialities(userID)
@@ -73,10 +74,6 @@ def get_recs(event, userID):
 
     # removes repeats
     final_prefs = list(set(final_prefs))
-
-    print(specialities)
-    print(brought)
-    print(final_prefs)
 
     # lookup pages with scraper for each of the x=
     pages = [wikipedia.page(speciality) for speciality in specialities]
@@ -123,7 +120,7 @@ def get_recs(event, userID):
             images.append(page.images[:CUTOFF])
         else:
             images.append(page.images)
-    return [urls, images]
+    return [best_options, urls, images]
 
 # given recommendations, determines all their corresponding recipes
 def get_recipes(recommendations):
@@ -132,10 +129,8 @@ def get_recipes(recommendations):
         res = client.query('{}'.format(best_options[0]))
         for pod in res.pods:
             print(next(res.results).text)
-<<<<<<< HEAD
 
-if __name__ == "__main__":
-    sample_recs = get_recs(3, 2)
-    print(sample_recs)
-=======
->>>>>>> b74a34df6998a20c634442c41ff22cc0cdd3623e
+# Testing purpose
+# if __name__ == "__main__":
+#    sample_recs = get_recs(3, 2)
+#    print(sample_recs)

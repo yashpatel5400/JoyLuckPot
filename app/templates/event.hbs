@@ -2,23 +2,23 @@
   <div class="event-hero">
     <div class="event-hero-left">
       {{#slick-slider variableWidth=true autoplay=true autoplaySpeed=1000}}
-        {{#each model.images as |image|}}
+        {{#each model.event.images as |image|}}
         <img class="event-image" src={{image}} />
         {{/each}}
       {{/slick-slider}}
     </div>
     <div class="event-hero-right">
-      {{#g-map lat=model.lat lng=model.lng zoom=12 as |context|}}
-        {{g-map-marker context lat=model.lat lng=model.lng}}]
+      {{#g-map lat=model.event.lat lng=model.event.lng zoom=12 as |context|}}
+        {{g-map-marker context lat=model.event.lat lng=model.event.lng}}]
       {{/g-map}}
     </div>
   </div>
 
-  <h1>{{model.title}}</h1>
-  <p>{{model.description}}</p>
+  <h1>{{model.event.title}}</h1>
+  <p>{{model.event.description}}</p>
 
   <button class="btn join-button" {{action "join"}}>Join Event</button>
-  {{#each model.attendees as |attendee|}}
+  {{#each model.event.attendees as |attendee|}}
   <div class="attendee">
     <img class="attendee-photo" src={{attendee.user.photo}} />
     <span class="attendee-name">{{attendee.user.name}}</span>
@@ -26,9 +26,9 @@
   {{/each}}
 
   {{#bs-modal footer=false open=openJoinModal title="Join Group"}}
-    <h3> Group ID: 0000000 </h3>
-    <h3> Attendees: {{model.attendees.length}} </h3>
-    <h3> Location: {{model.description}} </h3>
+    <h3> Host: {{model.event.host.name}} </h3>
+    <h3> Attendees: {{model.event.attendees.length}} </h3>
+    <h3> Location: {{model.event.description}} </h3>
     <h3> Preferences In This Group </h3>
       <div class = "container">
       <span class="label label-default">Chinese</span>

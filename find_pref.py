@@ -3,7 +3,7 @@ import wolframalpha
 import pymssql
 import google
 
-conn = pymssql.connect(server='daphney.database.windows.net', 
+conn = pymssql.connect(server='daphney.database.windows.net',
     user='daphne@daphney', password='Princeton2018', database='Profiles')
 cur = conn.cursor()
 
@@ -52,7 +52,7 @@ def get_recipe(food):
     return (list(results)[0])
 
 # Returns recommendations for what to cook (array)
-# for a given person with userID in the form of 
+# for a given person with userID in the form of
 # [[item1, item2], [[pics of item1], [pics of item2]]]
 def get_recs(event, userID):
     overall_values = get_user_food(event)
@@ -84,7 +84,7 @@ def get_recs(event, userID):
     # bunch of unintelligible code to change from binary to str
     description = {}
     for speciality in specialities:
-        description[speciality] = [word.decode('utf-8').encode('cp850','replace').decode('cp850').lower() 
+        description[speciality] = [word.decode('utf-8').encode('cp850','replace').decode('cp850').lower()
             for word in wikipedia.page(speciality).summary.encode("utf-8").split()]
 
     # all the descriptors put into single list
@@ -132,7 +132,10 @@ def get_recipes(recommendations):
         res = client.query('{}'.format(best_options[0]))
         for pod in res.pods:
             print(next(res.results).text)
+<<<<<<< HEAD
 
 if __name__ == "__main__":
     sample_recs = get_recs(3, 2)
     print(sample_recs)
+=======
+>>>>>>> b74a34df6998a20c634442c41ff22cc0cdd3623e

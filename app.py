@@ -1,10 +1,11 @@
-from flask import Flask
+from flask import Flask, send_file, request, jsonify
 from flask_restful import reqparse, abort, Api, Resource
 import pymssql
+import find_pref
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="dist", static_url_path="")
 api = Api(app)
-conn = pymssql.connect(server='daphney.database.windows.net', 
+conn = pymssql.connect(server='daphney.database.windows.net',
     user='daphne@daphney', password='Princeton2018', database='Profiles')
 cur = conn.cursor()
 
@@ -29,12 +30,12 @@ class Users(Resource):
             results = cur.fetchone()
 
         for result in results_parsed:
-            curID = result[LOC_USER_ID]
-            
+            curID = result[self.LOC_USER_ID]
+
             SQL_command_2 = "SELECT FoodComboID FROM Food \
                 WHERE UserID = {}".format(curID)
             cur.execute(SQL_command_2)
-                
+
             results_2 = cur.fetchone()
             attendees_ids = []
             while results_2:
@@ -43,11 +44,11 @@ class Users(Resource):
 
             curUser = {
                 "id": curID,
-                "name": results[LOC_NAME],
-                "photo": results[LOC_PHOTO],
+                "name": result[self.LOC_NAME],
+                "photo": result[self.LOC_PHOTO],
                 "attendees": attendees_ids,
-                "specialties": results[LOC_SPECIALTIES],
-                "preferences": results[LOC_PREFERENCES]
+                "specialties": result[self.LOC_SPECIALTIES],
+                "preferences": result[self.LOC_PREFERENCES]
             }
             json["users"].append(curUser)
 
@@ -60,9 +61,9 @@ class Users(Resource):
         new_user_specialties = new_user['specialties']
         new_user_preferences = new_user['preferences']
         new_user_name = new_user['name']
-        
+
         SQL_command_new = " INSERT INTO Users\
-            VALUES ({},{},{},{},{})".format(new_user_id, new_user_photo, 
+            VALUES ({},{},{},{},{})".format(new_user_id, new_user_photo,
             new_user_specialties, new_user_preferences, new_user_name)
         cur.execute(SQL_command_new)
 
@@ -73,48 +74,90 @@ class Attendees(Resource):
     LOC_USER_ID = 1
     LOC_FOOD = 2
     LOC_ID = 3
-    
+
     def get(self):
         json = {"attendees": []}
         SQL_command = "SELECT * FROM Food"
         cur.execute(SQL_command)
 
         results = cur.fetchone()
-        results_parsed = []
         while results:
-            results_parsed.append(results)
-            results = cur.fetchone()
             curUser = {
-                "id": results[LOC_ID],
-                "user": results[LOC_USER_ID],
-                "event": results[LOC_EVENT_ID],
-                "food": results[LOC_FOOD]
+                "id": results[self.LOC_ID],
+                "user": results[self.LOC_USER_ID],
+                "event": results[self.LOC_EVENT_ID],
+                "food": results[self.LOC_FOOD]
             }
-            json["users"].append(curUser)
+            json["attendees"].append(curUser)
+            results = cur.fetchone()
 
         return json
-        
+
     def put(self, update):
         new_attendees = update["attendees"][0]
         new_attendees_event = new_attendees['event']
         new_attendees_user = new_attendees['user']
         new_attendees_food = new_attendees['food']
         new_attendees_id = new_attendees['id']
-        
+
         SQL_command_new = " INSERT INTO Food\
-            VALUES ({},{},{},{})".format(new_attendees_event, 
-                new_attendees_user, new_attendees_food, 
+            VALUES ({},{},{},{})".format(new_attendees_event,
+                new_attendees_user, new_attendees_food,
                 new_attendees_id)
         cur.execute(SQL_command_new)
+
+class Events(Resource):
+    LOC_ID = 0
+    LOC_LNG = 1
+    LOC_HOST = 2
+    LOC_TIME = 3
+    LOC_POTLUCK = 4
+    LOC_PRIVATE = 5
+    LOC_LAT = 6
+    LOC_MAXGUESTS = 7
+    LOC_CURGUESTS = 8
+    LOC_TITLE = 9
+    LOC_DESC = 10
+
+    def get(self):
+        json = {"events": []}
+        cur.execute("SELECT * FROM Events")
+
+        results = cur.fetchone()
+        while results:
+            json["events"].append({
+                "id": results[self.LOC_ID],
+                "host": results[self.LOC_HOST],
+                "title": results[self.LOC_TITLE],
+                "description": results[self.LOC_DESC],
+                "time": results[self.LOC_TIME].isoformat(),
+                "lat": results[self.LOC_LAT],
+                "lng": results[self.LOC_LNG]
+            })
+            results = cur.fetchone()
+
+        return json
 
 ##
 ## Actually setup the Api resource routing here
 api.add_resource(Users, '/users', methods=['GET','PUT'])
 api.add_resource(Attendees, '/attendees', methods=['GET','PUT'])
+api.add_resource(Events, '/events', methods=['GET'])
+
 
 @app.route('/')
 def index():
-	return send_template('templates/login.html')
+  return send_file('dist/index.html')
+
+
+@app.route('/suggestions')
+def suggestions():
+  event_id = request.args.get("event_id")
+  user_id = request.args.get("user_id")
+  suggestions = find_pref.get_recs(event_id, user_id)
+  return jsonify(suggestions=suggestions)
+
 
 if __name__ == '__main__':
+    app.debug = True
     app.run()

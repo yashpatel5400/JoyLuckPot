@@ -1,9 +1,8 @@
 <nav class="navbar navbar-default navbar-fixed-top">
-  <a class="navbar-brand">LuckyPot</a>
+  {{#link-to "index" class="navbar-brand"}}JoyLuck{{/link-to}}
 
   <ul class="nav navbar-nav">
-    <li>{{#link-to "index"}}Home{{/link-to}}</li>
-    <li>{{#link-to "map"}}Map{{/link-to}}</li>
+    <li>{{#link-to "map"}}Explore Events{{/link-to}}</li>
   </ul>
 
   <form class="navbar-form navbar-left" role="search">
@@ -11,8 +10,8 @@
       <input type="text" class="form-control" placeholder="Search...">
     </div>
   </form>
-  
-  <ul class="nav navbar-nav navbar-right">
+
+  <ul class="nav navbar-nav navbar-right" style="margin-right: 0;">
     <li>{{#link-to "profile"}}Profile{{/link-to}}</li>
     <li><a href="#">Logout</a></li>
   </ul>

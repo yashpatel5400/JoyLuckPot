@@ -2,7 +2,7 @@ import wikipedia
 import wolframalpha
 import pymssql
 
-conn = pymssql.connect(server='daphney.database.windows.net', 
+conn = pymssql.connect(server='daphney.database.windows.net',
     user='daphne@daphney', password='Princeton2018', database='Profiles')
 cur = conn.cursor()
 
@@ -10,7 +10,7 @@ cur = conn.cursor()
 # returns IDs of users and food who attended event
 # as an array of arrays of [[IDs],[Food]]
 def get_user_food(event):
-    SQL_query = "SELECT Preferences FROM Users \
+    SQL_query = "SELECT UserID, Food FROM Food \
         WHERE EventID = {}".format(event)
     cur.execute(SQL_query)
     results = cur.fetchone()
@@ -45,7 +45,7 @@ def get_specialities(user):
     return specialities
 
 # Returns recommendations for what to cook (array)
-# for a given person with userID in the form of 
+# for a given person with userID in the form of
 # [[item1, item2], [[pics of item1], [pics of item2]]]
 def get_recs(event, userID):
     overall_values = get_user_food(event)
@@ -61,7 +61,7 @@ def get_recs(event, userID):
     final_prefs = []
     for pref in prefs:
         pref = [s.lower() for s in pref]
-        final_prefs += pref 
+        final_prefs += pref
 
     # removes repeats
     final_prefs = list(set(final_prefs))
@@ -72,7 +72,7 @@ def get_recs(event, userID):
     # bunch of unintelligible code to change from binary to str
     description = {}
     for speciality in specialities:
-        description[speciality] = [word.decode('utf-8').encode('cp850','replace').decode('cp850').lower() 
+        description[speciality] = [word.decode('utf-8').encode('cp850','replace').decode('cp850').lower()
             for word in wikipedia.page(speciality).summary.encode("utf-8").split()]
 
     # all the descriptors put into single list

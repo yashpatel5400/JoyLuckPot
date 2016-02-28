@@ -1,6 +1,7 @@
-from flask import Flask, send_file
+from flask import Flask, send_file, request, jsonify
 from flask_restful import reqparse, abort, Api, Resource
 import pymssql
+import find_pref
 
 app = Flask(__name__, static_folder="dist", static_url_path="")
 api = Api(app)
@@ -149,9 +150,13 @@ def index():
   return send_file('dist/index.html')
 
 
-@app.route('/')
-def index():
-	return send_template('templates/login.html')
+@app.route('/suggestions')
+def suggestions():
+  event_id = request.args.get("event_id")
+  user_id = request.args.get("user_id")
+  suggestions = find_pref.get_recs(event_id, user_id)
+  return jsonify(suggestions=suggestions)
+
 
 if __name__ == '__main__':
     app.debug = True

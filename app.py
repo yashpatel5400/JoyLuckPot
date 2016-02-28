@@ -11,13 +11,14 @@ cur = conn.cursor()
 
 # User -- person attending event
 class Users(Resource):
+    LOC_USER_ID = 0
+    LOC_PHOTO = 1
+    LOC_SPECIALTIES = 2
+    LOC_PREFERENCES = 3
+    LOC_NAME = 4
+
     def get(self):
         # gives indices in SQL to prevent magic numbers
-        LOC_USER_ID = 0
-        LOC_NAME = -1
-        LOC_PHOTO = 2
-        LOC_ATTENDEEES = 3
-
         json = {"users": []}
         SQL_command = "SELECT * FROM Users"
         cur.execute(SQL_command)
@@ -45,24 +46,36 @@ class Users(Resource):
                 "id": curID,
                 "name": results[LOC_NAME],
                 "photo": results[LOC_PHOTO],
-                "attendees": attendees_ids
+                "attendees": attendees_ids,
+                "specialties": results[LOC_SPECIALTIES],
+                "preferences": results[LOC_PREFERENCES]
             }
             json["users"].append(curUser)
 
         return json
 
-    def put(self):
-        return 201
+    def put(self, update):
+        new_user = update["users"][0]
+        new_user_id = new_user['id']
+        new_user_photo = new_user['photo']
+        new_user_specialties = new_user['specialties']
+        new_user_preferences = new_user['preferences']
+        new_user_name = new_user['name']
+        
+        SQL_command_new = " INSERT INTO Users\
+            VALUES ({},{},{},{},{})".format(new_user_id, new_user_photo, 
+            new_user_specialties, new_user_preferences, new_user_name)
+        cur.execute(SQL_command_new)
 
 # Attendees -- list of people at event
 class Attendees(Resource):
+    # gives indices in SQL to prevent magic numbers
+    LOC_EVENT_ID = 0
+    LOC_USER_ID = 1
+    LOC_FOOD = 2
+    LOC_ID = 3
+    
     def get(self):
-        # gives indices in SQL to prevent magic numbers
-        LOC_ID = -1
-        LOC_EVENT_ID = 0
-        LOC_USER_ID = 1
-        LOC_FOOD = 2
-
         json = {"attendees": []}
         SQL_command = "SELECT * FROM Food"
         cur.execute(SQL_command)
@@ -82,8 +95,23 @@ class Attendees(Resource):
 
         return json
         
-    def put(self):
-        return 201
+    def put(self, update):
+        LOC_EVENT_ID
+        LOC_USER_ID
+        LOC_FOOD
+        LOC_ID
+
+        new_attendees = update["attendees"][0]
+        new_attendees_event = new_attendees['event']
+        new_attendees_user = new_attendees['user']
+        new_attendees_food = new_attendees['food']
+        new_attendees_id = new_attendees['id']
+        
+        SQL_command_new = " INSERT INTO Food\
+            VALUES ({},{},{},{})".format(new_attendees_event, 
+                new_attendees_user, new_attendees_food, 
+                new_attendees_id)
+        cur.execute(SQL_command_new)
 
 ##
 ## Actually setup the Api resource routing here

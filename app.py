@@ -96,11 +96,6 @@ class Attendees(Resource):
         return json
         
     def put(self, update):
-        LOC_EVENT_ID
-        LOC_USER_ID
-        LOC_FOOD
-        LOC_ID
-
         new_attendees = update["attendees"][0]
         new_attendees_event = new_attendees['event']
         new_attendees_user = new_attendees['user']

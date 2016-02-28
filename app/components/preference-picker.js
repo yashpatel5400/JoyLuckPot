@@ -1,7 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  nodes: null,
+  svg: null,
+  nodes: [],
   force: null,
 
   init() {
@@ -17,8 +18,92 @@ export default Ember.Component.extend({
       var height = this.$("svg").height();
       this.get("force").size([width, height]).resume();
     },
+    explode() {
+      this.get("force").friction(1).gravity(0).charge(-5000).start();
+    },
     findMore() {
+      var nodes = this.get("nodes");
+      console.log(nodes);
 
+      for (var i = nodes.length - 1; i >= 0; i--) {
+        if (!nodes[i].isSelected) nodes.splice(i, 1);
+      }
+
+      this.send("_updateNodes");
+
+      setTimeout(() => {
+        this.send("_addNodes");
+        this.send("_updateNodes");
+      }, 0);
+    },
+    _addNodes() {
+      var nodes = this.get("nodes");
+
+      var currentWords = nodes.map(function (n) { return n.text; });
+      var allShuffledWords = d3.shuffle(window.FOOD_WORDS);
+
+      var minRadius = 50,
+          maxRadius = 70,
+          n = 20 - nodes.length,
+          i = 0;
+
+      d3.range(n).map(function() {
+        while (currentWords.indexOf(allShuffledWords[i]) != -1) i++;
+        currentWords.push(allShuffledWords[i]);
+        var r = Math.random() * (maxRadius - minRadius) + minRadius;
+        nodes.push({radius: r, text: allShuffledWords[i], isSelected: false});
+        i++;
+      });
+    },
+    _updateNodes() {
+      var svg = this.get("svg");
+      var force = this.get("force");
+      var nodes = this.get("nodes");
+
+      var nodesUpdate = svg.selectAll("g")
+          .data(nodes, function(d) { return d.text; });
+
+      var nodesEnter = nodesUpdate
+          .enter()
+          .append("g")
+          .style("cursor", "pointer")
+          .on("click", function (d) {
+            d.isSelected = !d.isSelected;
+            d.radius = d.isSelected ? d.radius * 1.2 : d.radius / 1.2;
+            d3.select(this)
+                .attr("d", d)
+                .select("circle")
+                    .attr("r", d.radius)
+                    .style("fill", d.isSelected ? "red" : "pink");
+            force.resume();
+          });
+
+      nodesEnter.append("circle")
+          .attr("r", function(d) { return d.radius; })
+          .style("fill", "pink")
+          .style("transition", "fill 0.2s, r 0.2s");
+
+      var sqrt2 = Math.sqrt(2);
+
+      nodesEnter.append("foreignObject")
+          .attr("x", function (d) { return -d.radius / sqrt2; })
+          .attr("y", function (d) { return -d.radius / sqrt2; })
+          .attr("width", function (d) { return d.radius * sqrt2; })
+          .attr("height", function (d) { return d.radius * sqrt2; })
+          .style("overflow", "hidden")
+          .append("xhtml:div")
+              .text(function (d) { return d.text; })
+              .style("color", "white")
+              .style("text-align", "center")
+              .style("height", "100%")
+              .style("display", "flex")
+              .style("justify-content", "center")
+              .style("align-items", "center")
+              .style("word-wrap", "break-word");
+
+      nodesUpdate.exit().remove();
+
+      force.start();
     }
   },
 
@@ -33,11 +118,15 @@ export default Ember.Component.extend({
 
     var n = 30; // total number of circles
 
-    var nodes = d3.range(n).map(function() {
-      var r = Math.random() * (maxRadius - minRadius) + minRadius;
-      return {radius: r, text: "" + r, isSelected: false};
-    });
-    this.set("nodes", nodes);
+    // var nodes = d3.range(n).map(function() {
+    //   var r = Math.random() * (maxRadius - minRadius) + minRadius;
+    //   return {radius: r, text: "" + r, isSelected: false};
+    // });
+    // this.set("nodes", nodes);
+    this.set("nodes", []);
+    this.send("_addNodes");
+    var nodes = this.get("nodes");
+    setTimeout(() => this.send("_updateNodes"), 0);
 
     var force = d3.layout.force()
         .nodes(nodes)
@@ -47,7 +136,7 @@ export default Ember.Component.extend({
         .on("tick", tick)
         .start();
     this.set("force", force);
-    setTimeout(() => this.send("doResize"), 1);
+    setTimeout(() => this.send("doResize"), 0);
 
     var svg = d3.select(this.$().get(0)).append("svg")
         // .attr("width", width)
@@ -56,43 +145,8 @@ export default Ember.Component.extend({
         .style("height", "100%");
     this.set("svg", svg);
 
-    var nodesEnter = svg.selectAll("g")
-        .data(nodes)
-      .enter()
-        .append("g")
-        .style("cursor", "pointer")
-        .on("click", function (d) {
-          d.isSelected = !d.isSelected;
-          d.radius = d.isSelected ? d.radius * 1.2 : d.radius / 1.2;
-          d3.select(this)
-              .attr("d", d)
-              .select("circle")
-                  .attr("r", d.radius)
-                  .style("fill", d.isSelected ? "red" : "pink");
-          force.resume();
-        });
-
-    nodesEnter.append("circle")
-        .attr("r", function(d) { return d.radius; })
-        .style("fill", "pink")
-        .style("transition", "fill 0.2s, r 0.2s");
-
-    var sqrt2 = Math.sqrt(2);
-
-    nodesEnter.append("foreignObject")
-        .attr("x", function (d) { return -d.radius / sqrt2; })
-        .attr("y", function (d) { return -d.radius / sqrt2; })
-        .attr("width", function (d) { return d.radius * sqrt2; })
-        .attr("height", function (d) { return d.radius * sqrt2; })
-        .style("overflow", "hidden")
-        .append("xhtml:p")
-            .text(function (d) { return d.text; })
-            .style("color", "white")
-            .style("text-align", "center")
-            .style("word-wrap", "break-word");
-
     function tick(e) {
-      nodesEnter
+      svg.selectAll("g")
           .each(collide(.5))
           .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
     }

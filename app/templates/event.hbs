@@ -27,8 +27,8 @@
 
   {{#bs-modal footer=false open=openJoinModal title="Join Group"}}
     <h3> Group ID: 0000000 </h3>
-    <h3> Spots Remaining: 5 </h3>
-    <h3> Location: hell </h3>
+    <h3> Attendees: {{model.attendees.length}} </h3>
+    <h3> Location: {{model.description}} </h3>
     <h3> Preferences In This Group </h3>
       <div class = "container">
       <span class="label label-default">Chinese</span>

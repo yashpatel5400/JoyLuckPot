@@ -109,7 +109,7 @@ def get_recs(event, userID):
             else:
                 best_options.append(final_spec)
 
-    urls = [get_recipe(food) for food in best_options]
+    #urls = [get_recipe(food) for food in best_options]
     images = []
 
     CUTOFF = 2
@@ -120,7 +120,7 @@ def get_recs(event, userID):
             images.append(page.images[:CUTOFF])
         else:
             images.append(page.images)
-    return [best_options, urls, images]
+    return [best_options, images]
 
 # given recommendations, returns nutrition facts
 # as a dictionary

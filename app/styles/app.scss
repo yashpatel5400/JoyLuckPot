@@ -1,9 +1,58 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:400,700);
 @import "normalize";
+
+$hp-gray: #314242;
+$hp-orange: #F59A6B;
+$hp-gray-text: #DDDDDD;
+
+$hp-space-blue: #434D68;
+$hp-space-dust-gray: #F9FAFB;
+$hp-magenta: #FA297C;
+$hp-yellow: #FFFF04;
+$hp-cyan: #42DACA;
+$hp-blue: #6880BC;
+
+@mixin font-heading {
+  font-family: "Dense-Regular", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+}
+
+@mixin font-subheading {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+  letter-spacing: 0.2em;
+}
+
+@mixin font-body {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+}
+
+@mixin form-element {
+  border-radius: 10px;
+  padding: 16px;
+  @include font-subheading;
+  text-transform: uppercase;
+  font-size: 16px;
+  //height: auto;
+  //margin: 0 0 1rem 0;
+  box-shadow: none;
+}
+
+body {
+  @include font-body;
+}
 
 $navbar-height: 50px;
 
 @mixin shadow {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+@mixin hover-color($property, $color) {
+  #{$property}: $color;
+  transition: $property 200ms ease-out;
+
+  &:hover, &:focus, &.disabled, &[disabled] {
+    #{$property}: scale-color($color, $lightness: -20%) !important;
+  }
 }
 
 * {
@@ -34,7 +83,7 @@ body > .ember-view {
 
 body {
   padding-top: $navbar-height;
-  background-color: cornsilk;
+  background-color: $hp-space-dust-gray;
 }
 
 .map-location-overlay {
@@ -90,6 +139,7 @@ body {
   overflow: auto;
   padding: 20px;
   background-color: darken(white, 5%);
+  flex-grow: 1;
   //display: flex;
   //flex-wrap: wrap;
   //justify-content: space-around;
@@ -107,11 +157,29 @@ body {
 
 .map-results-item {
   margin: 10px;
-  padding: 10px;
+  padding: 15px;
   width: calc(33.333% - 20px);
   float: left;
   background-color: white;
   @include shadow;
+
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  h2 {
+    color: black;
+  }
+
+  h3 {
+    color: black;
+    margin-top: 0;
+    font-size: 20px;
+    //@include font-subheading;
+    //text-transform: uppercase;
+  }
 }
 
 .map-results-item-image {
@@ -169,7 +237,7 @@ body {
     margin: 200px auto;
     width: 150px;
   }
-   
+
   .login {
     position: fixed;
     margin: 0 auto;
@@ -230,52 +298,57 @@ body {
 }
 
 .join-button {
-  background:#00FF00;
-    border: 0 none;
-  border-radius: 20px;
-  
+  @include hover-color(background-color, $hp-magenta);
+  color: white !important;
+
   padding: 18px 25px;
   margin: 20px;
-  
+
   cursor: pointer;
-  
+
   display: flex;
   justify-content: center;
   align-items: center;
-  
+
   flex: 0 0 160px;
-  
+
   text-align: center;
   line-height: 1.3;
   font-size: 20px;
-  color: #000;
   text-transform: none;
-  
+
   font-weight: 500;
 }
 
 .create-button {
-  background:#00FF00;
-    border: 0 none;
-  border-radius: 20px;
-  
-  padding: 3px 3px;
+  @include hover-color(background-color, $hp-magenta);
+  @include hover-color(color, white);
+
+  //padding: 3px 3px;
   margin: 5px;
-  
-  cursor: pointer;
-  
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  
-  flex: 0 0 50px;
-  
-  text-align: center;
-  line-height: 1.3;
-  font-size: 20px;
-  color: #000;
-  text-transform: none;
-  
-  font-weight: 500;
+
+  //cursor: pointer;
+
+  //display: flex;
+  //justify-content: center;
+  //align-items: center;
+
+  //flex: 0 0 50px;
+
+  //text-align: center;
+  //line-height: 1.3;
+  //font-size: 20px;
+  //color: #000;
+  //text-transform: none;
+
+  //font-weight: 500;
+}
+
+.btn {
+  @include form-element;
+}
+
+.slick-arrow {
+  display: none !important;
 }
 

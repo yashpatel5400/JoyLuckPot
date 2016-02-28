@@ -4,29 +4,18 @@
 
 <div class="map-wrapper">
   <div class="map-left">
-    <div class="map-filter">
-      <form class="map-filter-inner">
-        <div class="map-filter-item"><label>Distance: <br />
-        {{input type="range" min="0" max="20" step="0.1" value=filterDistance}}</label> within {{filterDistance}} miles</div>
-        <div class="map-filter-item"><label>Date: <br />
-        {{input type="range" min="0" max="7" step="1" value=filterDate}}</label> next {{filterDate}} days <br/></div>
-        <div class="map-filter-item"><label>Show:</label><br />
-        <label>{{input type="checkbox" checked=filterFriends}} Friends</label>
-        <label>{{input type="checkbox" checked=filterPublic}} Public</label></div>
-      </form>
-    </div>
     <div class="map-results">
       {{#each model as |event|}}
         {{#link-to "event" event.id}}
           <div class="map-results-item">
-            {{#slick-slider variableWidth=true autoplay=true autoplaySpeed=1000}}
+            {{#slick-slider variableWidth=true autoplay=true autoplaySpeed=1200}}
               {{#each event.imagesArray as |image|}}
               <div class="map-results-item-image"><img src={{image}} /></div>
               {{/each}}
             {{/slick-slider}}
 
             <h2>{{event.title}}</h2>
-            <h3>Hosted by: {{event.host.name}}</h3>
+            <h3><i class="fa fa-user"></i> {{event.host.name}}</h3>
           </div>
         {{/link-to}}
       {{/each}}

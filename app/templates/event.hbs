@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" style="background-color: white;">
   <div class="event-hero">
     <div class="event-hero-left">
       {{#slick-slider variableWidth=true autoplay=true autoplaySpeed=1000}}
@@ -18,10 +18,22 @@
   <p>{{model.event.description}}</p>
 
   <button class="btn join-button" {{action "join"}}>Join Event</button>
+
+  <h2>Attendees</h2>
   {{#each model.event.attendees as |attendee|}}
-  <div class="attendee">
+  <div class="attendee" style="overflow: auto;">
+
+    <div style="width: 50%; float: right;">
+      {{#slick-slider variableWidth=true autoplay=true autoplaySpeed=1000}}
+        {{#each attendee.imagesArray as |image|}}
+          <img class="event-image" src={{image}} />
+        {{/each}}
+      {{/slick-slider}}
+    </div>
+
     <img class="attendee-photo" src={{attendee.user.photo}} />
-    <span class="attendee-name">{{attendee.user.name}}</span>
+    <span class="attendee-name">{{attendee.user.name}} <br/> Bringing: {{attendee.food}}</span>
+
   </div>
   {{/each}}
 

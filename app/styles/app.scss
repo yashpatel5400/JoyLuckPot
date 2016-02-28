@@ -94,3 +94,69 @@ body {
     max-height: 100%;
   }
 }
+
+.route-index {
+  background: url(back.jpg) no-repeat top center;
+  background-size: cover;
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+
+  .text {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 250px;
+    z-index: 10;
+  }
+
+  svg {
+    width: 100%;
+    height: 1000px;
+  }
+  svg text {
+    text-anchor: middle;
+  }
+  svg #alpha {
+    fill: #666666;
+  }
+  svg #title {
+    letter-spacing: -2px;
+    font-size: 6em;
+    font-weight: 800;
+  }
+  svg #subtitle {
+    letter-spacing: 8px;
+    font-size: 1.2em;
+    font-weight: 300;
+    text-transform: uppercase;
+  }
+  svg #base {
+    fill: #1e1e1e;
+    -webkit-mask: url(#mask);
+            mask: url(#mask);
+  }
+
+  .container {
+    margin: 200px auto;
+    width: 150px;
+  }
+   
+  .login {
+    position: fixed;
+    margin: 0 auto;
+    padding: 50px 0px 0px;
+    width: 150px;
+  }
+
+  .Aligner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .Aligner-item {
+    align-self: flex-start;
+  }
+}

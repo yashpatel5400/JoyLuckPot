@@ -2,12 +2,12 @@ import wikipedia
 import wolframalpha
 import pymssql
 import google
+import re
 
 conn = pymssql.connect(server='daphney.database.windows.net',
     user='daphne@daphney', password='Princeton2018', database='Profiles')
 cur = conn.cursor()
 
-# ------------------------------------------------
 # returns IDs of users and food who attended event
 # as an array of arrays of [[IDs],[Food]]
 def get_user_food(event):
@@ -53,7 +53,8 @@ def get_recipe(food):
 
 # Returns recommendations for what to cook (array)
 # for a given person with userID in the form of
-# [[item1, item2], [[pics of item1], [pics of item2]]]
+# [[item1, item2], [item1 recipe, item2 recipe], 
+# [[pics of item1], [pics of item2]]]
 def get_recs(event, userID):
     overall_values = get_user_food(event)
     specialities = get_specialities(userID)
@@ -73,10 +74,6 @@ def get_recs(event, userID):
 
     # removes repeats
     final_prefs = list(set(final_prefs))
-
-    print(specialities)
-    print(brought)
-    print(final_prefs)
 
     # lookup pages with scraper for each of the x=
     pages = [wikipedia.page(speciality) for speciality in specialities]
@@ -123,16 +120,40 @@ def get_recs(event, userID):
             images.append(page.images[:CUTOFF])
         else:
             images.append(page.images)
-    return [urls, images]
+    return [best_options, urls, images]
 
-# given recommendations, determines all their corresponding recipes
-def get_recipes(recommendations):
+# given recommendations, returns nutrition facts
+# as a dictionary
+def get_nutrition_fact(recommendations):
     client = wolframalpha.Client("7G2PKA-T85X7T866X")
-    for option in best_options:
-        res = client.query('{}'.format(best_options[0]))
-        for pod in res.pods:
-            print(next(res.results).text)
+    for option in recommendations:
+        res = client.query('{}'.format(option))
 
-if __name__ == "__main__":
-    sample_recs = get_recs(3, 2)
-    print(sample_recs)
+        # determines where the nutrition facts are
+        for pod in res.pods:
+            if "total fat" in pod.text:
+                final_text = pod.text
+                break
+
+        # reformats the nutrion facts into dictionary
+        parsed_text = final_text.strip().split('\n')
+        simplified_text = []
+        for line in parsed_text:
+            cut_index = line.find('|')
+            if cut_index != -1:
+                simplified_text.append(" ".join(line[:cut_index].split()))
+        
+        nutrition_facts = {}
+        for line in simplified_text:
+            num_index = re.search("\d", line)
+            if num_index:
+                key = line[:num_index.start()]
+                val = line[num_index.start():]
+                nutrition_facts[key] = val
+        return nutrition_facts
+
+# Testing purpose
+# if __name__ == "__main__":
+    # sample_recs = get_recs(3, 2)
+    # print(sample_recs)
+    # get_nutrition_fact(['Lo Mein'])

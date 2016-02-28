@@ -70,7 +70,7 @@ def get_recs(event, userID):
     for pref in prefs:
         cur_pref = pref[0].replace(',', '').split()
         cur_pref = [s.lower() for s in cur_pref]
-        final_prefs += cur_pref 
+        final_prefs += cur_pref
 
     # removes repeats
     final_prefs = list(set(final_prefs))

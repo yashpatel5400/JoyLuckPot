@@ -160,3 +160,43 @@ body {
     align-self: flex-start;
   }
 }
+
+.attendee {
+  padding: 20px;
+  margin-bottom: 30px;
+  @include shadow;
+
+  &-photo {
+    width: 50px;
+    height: 50px;
+  }
+  &-name {
+    font-size: 24px;
+    line-height: 50px;
+    vertical-align: middle;
+    margin-left: 20px;
+  }
+}
+
+.event-hero {
+  overflow: auto;
+}
+
+.event-hero-left {
+  width: 60%;
+  float: left;
+}
+
+.event-image {
+  height: 300px;
+}
+
+.event-hero-right {
+  width: 40%;
+  float: left;
+  height: 300px;
+}
+
+.fa-spin {
+  line-height: normal;
+}

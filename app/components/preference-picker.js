@@ -123,6 +123,7 @@ export default Ember.Component.extend({
     //   return {radius: r, text: "" + r, isSelected: false};
     // });
     // this.set("nodes", nodes);
+    this.set("nodes", []);
     this.send("_addNodes");
     var nodes = this.get("nodes");
     setTimeout(() => this.send("_updateNodes"), 0);

@@ -1,9 +1,21 @@
-<div class="navbar">
-  Hack Name
-  {{#link-to "index"}}Home{{/link-to}}
-  {{#link-to "map"}}Map{{/link-to}}
-  <input type="text" placeholder="Search...">
-  <a href="#">My Profile</a>
-  <a href="#">Logout</a>
-</div>
+<nav class="navbar navbar-default navbar-fixed-top">
+  <a class="navbar-brand">LuckyPot</a>
+
+  <ul class="nav navbar-nav">
+    <li>{{#link-to "index"}}Home{{/link-to}}</li>
+    <li>{{#link-to "map"}}Map{{/link-to}}</li>
+  </ul>
+
+  <form class="navbar-form navbar-left" role="search">
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Search...">
+    </div>
+  </form>
+  
+  <ul class="nav navbar-nav navbar-right">
+    <li><a href="#">My Profile</a></li>
+    <li><a href="#">Logout</a></li>
+  </ul>
+</nav>
+
 {{outlet}}

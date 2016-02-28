@@ -4,5 +4,7 @@ export default function(server) {
   // data will not be loaded in your tests.
 
   // server.createList('contact', 10);
-  server.createList('event', 10);
+  // server.createList('event', 20);
+  // server.createList('user', 100);
+  server.loadFixtures();
 }

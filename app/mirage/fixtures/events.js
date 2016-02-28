@@ -1,7 +1,7 @@
 export default [
  {
   title: "Test Potluck 1",
-  description: "Test",
+  description: "Location1",
   host: 3,
   lat: 37.7933,
   lng: -122.4167,
@@ -11,7 +11,7 @@ export default [
  },
  {
   title: "Test Potluck 2",
-  description: "Test",
+  description: "Location2",
   host: 1,
   lat: 37.7933 + 0.01,
   lng: -122.4167 + 0.01,

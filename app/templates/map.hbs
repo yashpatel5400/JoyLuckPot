@@ -40,3 +40,50 @@
     {{/g-map}}
   </div>
 </div>
+
+  <button class="btn create-button" {{action "create"}}>Create Event</button>
+
+    {{#bs-modal footer=false open=openCreateModal title="Create Group"}}
+  <div class="container">
+
+  <h1>Create Group</h1> 
+  <h3>Personal Details</h3>
+
+    <div class="form-group">
+  <label for="usr">Name</label>
+  <input type="text" class = "form-control" id="usr">
+</div>
+    <div class="form-group">
+    <label for="location">Location</label>
+    <input type="text" class="form-control" id="location" placeholder="Street Address">
+  </div>
+
+<form class ="form-inline">
+  <div class="form-group">
+    <input type="text" class="form-control" id="city" placeholder="City">
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control" id="state" placeholder="State">
+  </div>
+    <div class="form-group">
+    <input type="text" class="form-control" id="zip" placeholder="Zip">
+  </div>
+</form>
+<h3>I am a</h3>
+<div class="btn-group btn-group-lg">
+  <button type="button" class="btn btn-primary">Guest</button>
+  <button type="button" class="btn btn-primary">Host</button>
+  <button type="button" class="btn btn-primary">Potlucker</button>
+</div>
+<h3> Number of people I am looking for </h3>
+<div class = "form-group">
+  <input type="text" class = "form-control" id="num">
+</div>
+<div class="form-group">
+  <label for="comment">Additional Comments</label>
+  <textarea class="form-control" rows="5" id="comment"></textarea>
+</div>
+<button type="button" class="btn btn-primary btn-block">Submit!</button>
+</div>
+
+      {{/bs-modal}}

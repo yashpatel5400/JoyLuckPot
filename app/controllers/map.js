@@ -14,5 +14,12 @@ export default Ember.Controller.extend({
   filterFriends: true,
   filterPublic: true,
   filterDistance: 20,
-  filterDate: 7
+  filterDate: 7,
+
+    openCreateModal: false,
+  actions: {
+    create() {
+      this.set("openCreateModal", true);
+    }
+  }
 });

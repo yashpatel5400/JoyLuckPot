@@ -75,6 +75,12 @@ export default function() {
 
   this.get("/events");
   this.get('/events/:id');
+
+  this.get("/users");
+  this.get("/users/:id");
+
+  this.get("/attendees");
+  this.get("/attendees/:id");
 }
 
 /*

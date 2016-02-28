@@ -34,6 +34,33 @@ body > .ember-view {
 
 body {
   padding-top: $navbar-height;
+  background-color: cornsilk;
+}
+
+.map-location-overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 1001;
+  top: $navbar-height;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  color: white;
+  background-color: #c0392b;
+  text-align: center;
+  display: table;
+  -webkit-transition: background 0.3s linear 0s, opacity 0.2s linear 1s;
+
+  &.approved {
+    background-color: #27ae60;
+    opacity: 0;
+  }
+
+  h1 {
+    display: table-cell;
+    vertical-align: middle;
+  }
 }
 
 .map-wrapper {
@@ -159,4 +186,95 @@ body {
   .Aligner-item {
     align-self: flex-start;
   }
+}
+
+.attendee {
+  padding: 20px;
+  margin-bottom: 30px;
+  @include shadow;
+  background: ghostwhite;
+
+  &-photo {
+    width: 50px;
+    height: 50px;
+  }
+  &-name {
+    font-size: 24px;
+    line-height: 50px;
+    vertical-align: middle;
+    margin-left: 20px;
+  }
+}
+
+.event-hero {
+  overflow: auto;
+}
+
+.event-hero-left {
+  width: 60%;
+  float: left;
+}
+
+.event-image {
+  height: 300px;
+}
+
+.event-hero-right {
+  width: 40%;
+  float: left;
+  height: 300px;
+}
+
+.fa-spin {
+  line-height: normal;
+}
+
+.join-button {
+  background:#00FF00;
+    border: 0 none;
+  border-radius: 20px;
+  
+  padding: 18px 25px;
+  margin: 20px;
+  
+  cursor: pointer;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  flex: 0 0 160px;
+  
+  text-align: center;
+  line-height: 1.3;
+  font-size: 20px;
+  color: #000;
+  text-transform: none;
+  
+  font-weight: 500;
+}
+
+.create-button {
+  background:#00FF00;
+    border: 0 none;
+  border-radius: 10px;
+  
+  padding: 0px 10px;
+  margin: 5px;
+  
+  cursor: pointer;
+  
+  display: center;
+  justify-content: center;
+  align-items: center;
+  
+  flex: 0 0 50px;
+  
+  text-align: center;
+  line-height: 1.3;
+  font-size: 18px;
+  color: #000;
+  text-transform: none;
+  
+  font-weight: 500;
 }

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<style>
+.container {
+  margin: auto;
+  width: 100%;
+}
+
+body {
+	  background: url(back.jpg) no-repeat top center;
+  background-size: cover;
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+}
+</style>
+
+</head>
+<body>
+	<div class="container">
+	<h1>Create Group</h1> 
+	<h3>Personal Details<h3>
+
+		<div class="form-group">
+  <label for="usr">Name</label>
+  <input type="text" class="form-control" id="usr">
+</div>
+    <div class="form-group">
+    <label for="location">Location</label>
+    <input type="text" class="form-control" id="location" placeholder="Street Address">
+  </div>
+
+<form class ="form-inline">
+  <div class="form-group">
+    <input type="text" class="form-control" id="city" placeholder="City">
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control" id="state" placeholder="State">
+  </div>
+    <div class="form-group">
+    <input type="text" class="form-control" id="zip" placeholder="Zip">
+  </div>
+</form>
+<h3>I am a</h3>
+<div class="btn-group btn-group-lg">
+  <button type="button" class="btn btn-primary">Guest</button>
+  <button type="button" class="btn btn-primary">Host</button>
+  <button type="button" class="btn btn-primary">Potlucker</button>
+</div>
+<h3> Number of people I am looking for </h3>
+<div class = "form-group">
+	<input type="text" class = "form-control" id="num">
+</div>
+<div class="form-group">
+  <label for="comment">Additional Comments</label>
+  <textarea class="form-control" rows="5" id="comment"></textarea>
+</div>
+<button type="button" class="btn btn-primary btn-block">Submit!</button>
+</div>
+</body>
+</html>

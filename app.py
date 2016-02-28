@@ -77,6 +77,7 @@ class Attendees(Resource):
     LOC_USER_ID = 1
     LOC_FOOD = 2
     LOC_ID = 3
+    LOC_IMAGES = 4
 
     def get(self):
         json = {"attendees": []}
@@ -89,7 +90,8 @@ class Attendees(Resource):
                 "id": results[self.LOC_ID],
                 "user": results[self.LOC_USER_ID],
                 "event": results[self.LOC_EVENT_ID],
-                "food": results[self.LOC_FOOD]
+                "food": results[self.LOC_FOOD],
+                "images": results[self.LOC_IMAGES]
             }
             json["attendees"].append(curUser)
             results = cur.fetchone()

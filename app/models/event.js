@@ -9,6 +9,13 @@ export default DS.Model.extend({
   lng: DS.attr(),
   maxGuests: DS.attr(),
   currentGuests: DS.attr(),
-  images: DS.attr(),
-  attendees: DS.hasMany('attendee', {async: true})
+  attendees: DS.hasMany('attendee', {async: true}),
+
+  imagesArray: Ember.computed("attendees.@each.imagesArray", function () {
+    var images = [];
+    this.get("attendees").forEach((attendee) => {
+      images = images.concat(attendee.get("imagesArray"));
+    });
+    return images;
+  })
 });

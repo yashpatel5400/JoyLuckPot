@@ -20,7 +20,7 @@
         {{#link-to "event" event.id}}
           <div class="map-results-item">
             {{#slick-slider variableWidth=true autoplay=true autoplaySpeed=1000}}
-              {{#each event.images as |image|}}
+              {{#each event.imagesArray as |image|}}
               <div class="map-results-item-image"><img src={{image}} /></div>
               {{/each}}
             {{/slick-slider}}

@@ -2,7 +2,7 @@
   <div class="event-hero">
     <div class="event-hero-left">
       {{#slick-slider variableWidth=true autoplay=true autoplaySpeed=1000}}
-        {{#each model.event.images as |image|}}
+        {{#each model.event.imagesArray as |image|}}
         <img class="event-image" src={{image}} />
         {{/each}}
       {{/slick-slider}}
@@ -40,13 +40,13 @@
     <span class="label label-danger">Mexican</span>
     </div>
 
-          
+
       <h3>Stuck?</h3>
-      <h4>Here's a list of suggestions to help you get started!</h4>            
+      <h4>Here's a list of suggestions to help you get started!</h4>
       <div class="row">
         <div class="col-sm-6 col-md-4">
           <a href="https://www.pinterest.com/" target="_blank" class="thumbnail">
-            <p>Eat me.</p>    
+            <p>Eat me.</p>
             <img src="/img/back.jpg" alt="hi" style="width:150px;height:150px">
           </a>
         </div>
@@ -58,13 +58,13 @@
         </div>
         <div class="col-sm-6 col-md-4">
           <a href="https://www.pinterest.com/" target="_blank" class="thumbnail">
-            <p>If you don't eat me, I'll eat you.</p>      
+            <p>If you don't eat me, I'll eat you.</p>
             <img src="/img/back.jpg" alt="ugh" style="width:150px;height:150px">
           </a>
         </div>
             <div class="col-sm-6 col-md-4">
           <a href="https://www.pinterest.com/" target="_blank" class="thumbnail">
-            <p>Good bye.</p>      
+            <p>Good bye.</p>
             <img src="/img/back.jpg" alt="meh" style="width:150px;height:150px">
           </a>
         </div>

@@ -18,6 +18,9 @@ export default Ember.Component.extend({
       var height = this.$("svg").height();
       this.get("force").size([width, height]).resume();
     },
+    explode() {
+      this.get("force").friction(1).gravity(0).charge(-5000).start();
+    },
     findMore() {
       var nodes = this.get("nodes");
       console.log(nodes);
@@ -36,13 +39,20 @@ export default Ember.Component.extend({
     _addNodes() {
       var nodes = this.get("nodes");
 
-      var minRadius = 40,
-          maxRadius = 50,
-          n = 30 - nodes.length;
+      var currentWords = nodes.map(function (n) { return n.text; });
+      var allShuffledWords = d3.shuffle(window.FOOD_WORDS);
+
+      var minRadius = 50,
+          maxRadius = 70,
+          n = 20 - nodes.length,
+          i = 0;
 
       d3.range(n).map(function() {
+        while (currentWords.indexOf(allShuffledWords[i]) != -1) i++;
+        currentWords.push(allShuffledWords[i]);
         var r = Math.random() * (maxRadius - minRadius) + minRadius;
-        nodes.push({radius: r, text: "" + r, isSelected: false});
+        nodes.push({radius: r, text: allShuffledWords[i], isSelected: false});
+        i++;
       });
     },
     _updateNodes() {
@@ -81,10 +91,14 @@ export default Ember.Component.extend({
           .attr("width", function (d) { return d.radius * sqrt2; })
           .attr("height", function (d) { return d.radius * sqrt2; })
           .style("overflow", "hidden")
-          .append("xhtml:p")
+          .append("xhtml:div")
               .text(function (d) { return d.text; })
               .style("color", "white")
               .style("text-align", "center")
+              .style("height", "100%")
+              .style("display", "flex")
+              .style("justify-content", "center")
+              .style("align-items", "center")
               .style("word-wrap", "break-word");
 
       nodesUpdate.exit().remove();

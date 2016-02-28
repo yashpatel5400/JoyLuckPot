@@ -1,7 +1,6 @@
 from flask import Flask, send_file
 from flask_restful import reqparse, abort, Api, Resource
 import pymssql
-import json
 
 app = Flask(__name__, static_folder="dist", static_url_path="")
 api = Api(app)

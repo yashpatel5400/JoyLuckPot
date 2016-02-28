@@ -34,6 +34,7 @@ body > .ember-view {
 
 body {
   padding-top: $navbar-height;
+  background-color: cornsilk;
 }
 
 .map-location-overlay {
@@ -191,6 +192,7 @@ body {
   padding: 20px;
   margin-bottom: 30px;
   @include shadow;
+  background: ghostwhite;
 
   &-photo {
     width: 50px;

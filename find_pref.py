@@ -69,7 +69,7 @@ def get_recs(event, userID):
     for pref in prefs:
         cur_pref = pref[0].replace(',', '').split()
         cur_pref = [s.lower() for s in cur_pref]
-        final_prefs += cur_pref 
+        final_prefs += cur_pref
 
     # removes repeats
     final_prefs = list(set(final_prefs))
@@ -132,10 +132,7 @@ def get_recipes(recommendations):
         res = client.query('{}'.format(best_options[0]))
         for pod in res.pods:
             print(next(res.results).text)
-<<<<<<< HEAD
 
 if __name__ == "__main__":
     sample_recs = get_recs(3, 2)
     print(sample_recs)
-=======
->>>>>>> b74a34df6998a20c634442c41ff22cc0cdd3623e
